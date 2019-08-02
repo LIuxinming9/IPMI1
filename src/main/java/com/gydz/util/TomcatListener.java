@@ -13,7 +13,7 @@ public class TomcatListener implements ServletContextListener{
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         System.out.println(servletContextEvent.getServletContext());  
         System.out.println("tomcat inited");   
-        if(!Platform.isWindows()){ 
+        if(!Platform.isWindows()){  
             System.out.println(TimeZone.getDefault()); 
             final TimeZone zone = TimeZone.getTimeZone("CST");
             TimeZone.setDefault(zone);
