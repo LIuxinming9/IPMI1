@@ -12,7 +12,7 @@ import java.util.TimerTask;
 
 public class createTableUtil{
 	public static void main(String[] args) throws Exception {
-		
+		 
 	}
 	
 	// 	传感器记录表，为fullrecord和conpactrecord创建,还有eventonlyrecord
