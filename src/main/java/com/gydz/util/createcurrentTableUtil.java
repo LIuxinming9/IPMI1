@@ -12,7 +12,7 @@ import java.util.TimerTask;
 
 public class createcurrentTableUtil{
 	public static void main(String[] args) throws Exception {
-		System.out.println(6%10);
+		System.out.println(6%10);  
 	}
 	
 	// 	传感器记录表，为fullrecord和conpactrecord创建,还有eventonlyrecord
