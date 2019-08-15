@@ -205,11 +205,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							href='${pageContext.request.contextPath}/setValueByOid/list' >
 								<i class='icon-map-marker'></i> <span>SNMP-SET</span>
 						</a></li> --%>
-						</shiro:hasPermission>
+						
 						<li class="${(menu=='updateSysIP')?'active':''}"><a
 							href='${pageContext.request.contextPath}/remotesys/updateSysIP'
 							> <i class='icon-map-marker'></i> <span>监控对象</span>
 						</a></li>
+						</shiro:hasPermission>
 					<li class="${(menu=='log')?'active':''}"><a
 							href='${pageContext.request.contextPath}/user/log' >
 								<i class='icon-map-marker'></i> <span>系统日志</span>

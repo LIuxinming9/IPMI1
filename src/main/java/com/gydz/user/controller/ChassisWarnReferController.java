@@ -3,12 +3,8 @@ package com.gydz.user.controller;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -16,15 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gydz.user.mapper.MethodLog;
 import com.gydz.user.model.QueryParam;
 import com.gydz.user.model.chassisList;
 import com.gydz.user.model.chassisStatus;
-import com.gydz.user.model.ipmiwarnmodel;
-import com.gydz.user.model.sel_type;
-import com.gydz.user.model.selrecord;
 import com.gydz.user.model.sensorrecord;
 import com.gydz.user.model.serversip;
 import com.gydz.user.service.chassisImpl;
@@ -32,12 +24,8 @@ import com.gydz.user.service.chassiswarnsetImpl;
 import com.gydz.user.service.englishImpl;
 import com.gydz.user.service.ipmiwarnImpl;
 import com.gydz.user.service.sensorImpl;
-import com.gydz.user.service.sensorwarnsetImpl;
 import com.gydz.util.ExcelUtil;
-import com.gydz.util.ResponseUtil;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/chassiswarnrefer")

@@ -65,7 +65,7 @@
                                             <td class="center">
                                             	<c:if test="${item.account != 'admin'}">
                                             		<a href="${pageContext.request.contextPath}/user/del/${item.id}" title="删除" style="height:10px"
-                                            		onclick="return window.confirm('确认删除用户[${item.account}]吗?')"
+                                            		onclick="return window.confirm('确认删除用户[${item.username}]吗?')"
                                             		class="btn box-remove btn-mini btn-link"><i class='icon-remove'></i></a>
                                            		</c:if>
                                            	  </td>
