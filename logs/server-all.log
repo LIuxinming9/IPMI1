@@ -1,15 +1,134 @@
-2019-06-21 14:42:35.194 INFO  [com.veraxsystems.vxipmi.common.PropertiesManager] Getting pingPeriod: 30000
-2019-06-21 14:42:35.196 INFO  [com.veraxsystems.vxipmi.common.PropertiesManager] Getting retries: 3
-2019-06-21 14:42:35.197 INFO  [com.veraxsystems.vxipmi.common.PropertiesManager] Getting retries: 3
-2019-06-21 14:42:35.197 INFO  [com.veraxsystems.vxipmi.common.PropertiesManager] Getting idleTime: 4000
-2019-06-21 14:42:35.206 INFO  [com.veraxsystems.vxipmi.common.PropertiesManager] Getting timeout: 10000
-2019-06-21 14:42:52.940 WARN  [com.veraxsystems.vxipmi.api.async.IpmiAsyncConnector] Failed to receive answer, cause:
+2019-08-22 16:32:17.948 INFO  [com.veraxsystems.vxipmi.common.PropertiesManager] Getting pingPeriod: 30000
+2019-08-22 16:32:17.951 INFO  [com.veraxsystems.vxipmi.common.PropertiesManager] Getting retries: 3
+2019-08-22 16:32:17.951 INFO  [com.veraxsystems.vxipmi.common.PropertiesManager] Getting retries: 3
+2019-08-22 16:32:17.951 INFO  [com.veraxsystems.vxipmi.common.PropertiesManager] Getting idleTime: 4000
+2019-08-22 16:32:17.959 INFO  [com.veraxsystems.vxipmi.common.PropertiesManager] Getting timeout: 10000
+2019-08-22 16:32:35.787 WARN  [com.veraxsystems.vxipmi.api.async.IpmiAsyncConnector] Failed to receive answer, cause:
 com.veraxsystems.vxipmi.connection.ConnectionException: Command timed out
 	at com.veraxsystems.vxipmi.connection.Connection.waitForResponse(Connection.java:329)
 	at com.veraxsystems.vxipmi.connection.Connection.startSession(Connection.java:480)
 	at com.veraxsystems.vxipmi.connection.ConnectionManager.startSession(ConnectionManager.java:346)
 	at com.veraxsystems.vxipmi.api.async.IpmiAsyncConnector.openSession(IpmiAsyncConnector.java:247)
 	at com.veraxsystems.vxipmi.api.sync.IpmiConnector.openSession(IpmiConnector.java:165)
-	at com.gydz.util.ipmiutil.startSession(ipmiutil.java:975)
-	at com.gydz.util.ipmiutil.getfullrecord(ipmiutil.java:343)
-	at com.gydz.util.ipmiutil.main(ipmiutil.java:120)
+	at com.gydz.util.ipmiutil.startSession(ipmiutil.java:709)
+	at com.gydz.util.ipmiutil.getfullrecord(ipmiutil.java:345)
+	at com.gydz.util.ipmiutil.main(ipmiutil.java:114)
+2019-08-22 16:33:09.019 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 1
+2019-08-22 16:33:09.020 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 2
+2019-08-22 16:33:11.879 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+2019-08-22 16:33:14.508 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+2019-08-22 16:33:47.962 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 24
+2019-08-22 16:33:47.962 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 25
+2019-08-22 16:33:50.403 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.add(MessageQueue.java:129)
+	at com.veraxsystems.vxipmi.connection.Connection.sendIpmiCommand(Connection.java:541)
+	at com.veraxsystems.vxipmi.connection.Connection.run(Connection.java:675)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+2019-08-22 16:33:51.631 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.add(MessageQueue.java:129)
+	at com.veraxsystems.vxipmi.connection.Connection.sendIpmiCommand(Connection.java:541)
+	at com.veraxsystems.vxipmi.connection.Connection.run(Connection.java:675)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+2019-08-22 16:34:26.105 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 19
+2019-08-22 16:34:26.106 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 20
+2019-08-22 16:34:28.140 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+2019-08-22 16:34:29.639 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+2019-08-22 16:34:30.523 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+2019-08-22 16:35:00.893 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 21
+2019-08-22 16:35:00.893 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 22
+2019-08-22 16:35:00.893 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 23
+2019-08-22 16:35:00.893 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 24
+2019-08-22 16:35:00.893 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 25
+2019-08-22 16:35:00.894 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 26
+2019-08-22 16:35:00.894 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 27
+2019-08-22 16:35:00.894 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 28
+2019-08-22 16:35:34.168 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 44
+2019-08-22 16:35:34.169 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 45
+2019-08-22 16:35:37.289 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+2019-08-22 16:35:40.503 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+2019-08-22 16:35:42.294 WARN  [com.veraxsystems.vxipmi.coding.commands.sdr.record.ReadingType] Invalid value: 2054 (806) for sensor Fan
+2019-08-22 16:35:42.295 WARN  [com.veraxsystems.vxipmi.coding.commands.sdr.record.ReadingType] Invalid value: 2055 (807) for sensor Fan
+2019-08-22 16:36:15.704 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 25
+2019-08-22 16:36:15.705 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 26
+2019-08-22 16:36:16.714 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+2019-08-22 16:36:18.976 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+2019-08-22 16:36:50.715 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 28
+2019-08-22 16:36:50.715 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 29
+2019-08-22 16:36:50.716 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 30
+2019-08-22 16:36:50.716 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 31
+2019-08-22 16:36:50.716 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 32
+2019-08-22 16:36:50.716 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 33
+2019-08-22 16:36:50.716 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 34
+2019-08-22 16:36:50.716 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 35
+2019-08-22 16:36:50.873 WARN  [com.veraxsystems.vxipmi.coding.commands.sdr.record.ReadingType] Invalid value: 2054 (806) for sensor Fan
+2019-08-22 16:36:50.873 WARN  [com.veraxsystems.vxipmi.coding.commands.sdr.record.ReadingType] Invalid value: 2055 (807) for sensor Fan
+2019-08-22 16:37:25.281 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 12
+2019-08-22 16:37:25.282 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 13
+2019-08-22 16:37:26.341 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+2019-08-22 16:37:28.011 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+2019-08-22 16:37:28.141 WARN  [com.veraxsystems.vxipmi.coding.commands.sdr.record.ReadingType] Invalid value: 2584326 (276f06) for sensor Lan
+2019-08-22 16:37:28.142 WARN  [com.veraxsystems.vxipmi.coding.commands.sdr.record.ReadingType] Invalid value: 2584327 (276f07) for sensor Lan
+2019-08-22 16:37:28.220 WARN  [com.veraxsystems.vxipmi.coding.commands.sdr.record.ReadingType] Invalid value: 2584326 (276f06) for sensor Lan
+2019-08-22 16:37:28.220 WARN  [com.veraxsystems.vxipmi.coding.commands.sdr.record.ReadingType] Invalid value: 2584327 (276f07) for sensor Lan
+2019-08-22 16:38:01.821 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 35
+2019-08-22 16:38:01.823 INFO  [com.veraxsystems.vxipmi.connection.queue.MessageQueue] Removing message after timeout, tag: 36
+2019-08-22 16:38:02.257 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)
+2019-08-22 16:38:02.421 WARN  [com.veraxsystems.vxipmi.api.sync.IpmiConnector] Receiving message failed, retrying
+com.veraxsystems.vxipmi.connection.ConnectionException: Message timed out
+	at com.veraxsystems.vxipmi.connection.queue.MessageQueue.run(MessageQueue.java:344)
+	at java.util.TimerThread.mainLoop(Timer.java:555)
+	at java.util.TimerThread.run(Timer.java:505)

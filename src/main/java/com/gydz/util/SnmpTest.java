@@ -19,21 +19,21 @@ public class SnmpTest {
 		SnmpTest test = new SnmpTest();
 		//1.3.6.1.4.1.232.11.2.14.1.1 System ROM
 		//1.3.6.1.4.1.232.3.2.5.1.1.51.0.0 storage
-		/*File file =new File("D:\\127.0.0.1-1.3.6.1.4.1.txt");
+		File file =new File("D:\\192.168.1.112-1.3.6.1.4.1.txt");
 		Writer out =new FileWriter(file);
-		String ip = "127.0.0.1";
+		String ip = "192.168.1.112";
 		String community = "public";
 		List<String> list = SnmpData.snmpWalk(ip, community, "1.3.6.1.4.1");
 		for (int i = 0; i < list.size(); i++) {
 			out.write(list.get(i)+System.getProperty("line.separator"));
 		}
-		out.close();*/
+		out.close();
 
 		//test.testWalk("1.3.6.1.2.1.1.5.0");
-		String ip = "127.0.0.1";
+		/*String ip = "127.0.0.1";
 		String community = "public";
 		String str = SnmpData.snmpGet(ip, community, "1.3.6.1.2.1.1.6.0");
-		System.out.println(str+"======");
+		System.out.println(str+"======");*/
 	}
 	
 	public void testGet(String oid)

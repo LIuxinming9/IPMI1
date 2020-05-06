@@ -22,7 +22,7 @@ public class TomcatListener implements ServletContextListener{
         }
         System.out.println("before insertTask run");
       try {
-    	insertTask.runConnection();
+    	//insertTask.runConnection();
     	//insertTask.runIpmiConnector();
 		//insertTask.run();
 		 

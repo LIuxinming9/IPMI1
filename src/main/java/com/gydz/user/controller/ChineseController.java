@@ -85,7 +85,7 @@ public class ChineseController {
 		}
 		return list;
 	}
-	
+	 
 	@RequestMapping("/chinese")
 	@MethodLog(remark = "进入英语翻译页面",openType = "3")
 	public String sensorwarnrefer(HttpServletRequest request) {

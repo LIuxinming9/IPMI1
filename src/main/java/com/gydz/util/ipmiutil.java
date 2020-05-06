@@ -103,24 +103,24 @@ public class ipmiutil {
      */
     
     public static void main(String[] args) throws Exception{
-    	/*IpmiConnector connector = new IpmiConnector(port);
-    	System.out.println("1");
-    	ConnectionHandle handle = connector.createConnection(InetAddress.getByName("192.168.1.106"));
-    	System.out.println("2"+handle);
-    	CipherSuite cs = getcs(connector,handle);
-    	System.out.println("3");
-		connector.getChannelAuthenticationCapabilities(handle, cs, PrivilegeLevel.Administrator);
-    	System.out.println("4");*/
-    	//Administrator 6CVBPNPW "USERID", "PASSW0RD"
-    	/*Date date = new Date();
+    	Date date = new Date();
     	serversip serversip = new serversip();
-    	serversip.setHostname("192.168.1.106");
+    	/*serversip.setHostname("192.168.1.107");
     	serversip.setUsername("lenovo");
-    	serversip.setPassword("len0vO");
-    	List<sensorrecord> list = getfullrecord(serversip,0);
-    	System.out.println(list.size());
-    	for (int i = 0; i < list.size(); i++) {
-    		System.out.println(list.get(i).getName());
+    	serversip.setPassword("len0vO");*/
+    	serversip.setHostname("192.168.1.112");
+    	serversip.setUsername("Administrator");
+    	serversip.setPassword("GN9YTH76");
+    	Map<String,List<sensorrecord>> listMap = getfullrecord(serversip,0);
+    	List<sensorrecord> fulllist = listMap.get("fullList");
+		List<sensorrecord> conpactlist = listMap.get("conpactList");
+    	System.out.println(fulllist.size());
+    	for (int i = 0; i < fulllist.size(); i++) {
+    		System.out.println(fulllist.get(i).getName()+"  =  "+fulllist.get(i).getSensor_type()+"  =  "+fulllist.get(i).getCurrent_num());
+		}
+    	System.out.println(conpactlist.size());
+    	for (int i = 0; i < conpactlist.size(); i++) {
+    		System.out.println(conpactlist.get(i).getName()+"  =  "+conpactlist.get(i).getSensor_type()+"  =  "+conpactlist.get(i).getCurrent_num());
 		}
     	Date endDate = new Date();
     	System.out.println(endDate.getTime() - date.getTime());
@@ -128,7 +128,7 @@ public class ipmiutil {
 
         public static void getsensortest() throws Exception {
         	
-        	List<sensorrecord> list = new ArrayList<sensorrecord>();
+        	List<SensorRecord> list = new ArrayList<SensorRecord>();
           	 
           	 int nextRecId = 0;
 
@@ -147,7 +147,7 @@ public class ipmiutil {
                System.out.println("2");
                Date date = new Date();
                while (nextRecId < MAX_REPO_RECORD_ID) {
-              	 sensorrecord sensorrecord = new sensorrecord();
+            	 sensorrecord sensorrecord = new sensorrecord();
               	 sensorrecord.setIP("192.168.5.6");
               	 sensorrecord.setStart_time(date);
                    SensorRecord record = null;
@@ -186,7 +186,7 @@ public class ipmiutil {
                            sensorrecord.setUpper_non_recoverable_threshold(fsr.getUpperNonRecoverableThreshold());
                        }
                     } 
-        */
+       
         }
         
     public static CipherSuite getcs(IpmiConnector connector,ConnectionHandle handle) {

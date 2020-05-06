@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -13,20 +11,16 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gydz.user.mapper.MethodLog;
 import com.gydz.user.model.QueryParam;
 import com.gydz.user.model.chassisList;
 import com.gydz.user.model.chassisStatus;
-import com.gydz.user.model.ipmiwarnmodel;
-import com.gydz.user.model.sel_type;
-import com.gydz.user.model.selrecord;
 import com.gydz.user.model.sensorrecord;
+import com.gydz.user.model.snmp;
 import com.gydz.user.model.serversip;
 import com.gydz.user.service.chassisImpl;
 import com.gydz.user.service.chassiswarnsetImpl;
@@ -36,11 +30,6 @@ import com.gydz.user.service.resourcewarnsetImpl;
 import com.gydz.user.service.sensorImpl;
 import com.gydz.user.service.sensorwarnsetImpl;
 import com.gydz.user.service.warnhistoryImpl;
-import com.gydz.util.ExcelUtil;
-import com.gydz.util.ResponseUtil;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/warncurrent")
@@ -83,7 +72,9 @@ public class WarnCurrentController {
 		return strlist;
 	}
 	
-	public List<Integer> getlevelsum(){
+	
+	//获取告警信息的数量
+	public List<Integer> getLevelSum(){
 		List<sensorrecord> list = warnhistoryImpl.getwarnnotok();
 		List<Integer> intlist = new ArrayList<Integer>();
 		int all = 0;
@@ -121,7 +112,7 @@ public class WarnCurrentController {
 			addparam.setIPType(nameip.substring(nameip.indexOf('1')));
 			addparam.setEntity_id(nameip.substring(0, nameip.indexOf('1')));
 			addlist = sensorImpl.getcurrentInfobyParam(addparam);
-			String emptyname = dealemptyname(addlist);
+			String emptyname = dealEmptyName(addlist);
 			if(!emptyname.equals(emptyresource)) {
 				resourcewarnsetImpl.refresh(nameip,emptyname);
 			}
@@ -181,399 +172,136 @@ public class WarnCurrentController {
 		return "/WEB-INF/ipmiwarn/jtopo";
 	}
 	
-	// 告警信息页面
 	@RequestMapping("/warncurrent")
 	@MethodLog(remark = "进入实时告警页面",openType = "3")
 	public String remotesysinfo(HttpServletRequest request) {
-		HashMap<String, String> map = englishImpl.getmap();
-		List<serversip> serversip = null;
-		serversip = sensorImpl.getServersip();
-		List<sensorrecord> warnlevellist = getwarnlevel();
-		List<String> warnnotoklist = getwarnnotok();
-		List<String> strlist = new ArrayList<String>();
-		for (int i = 0; i < warnlevellist.size(); i++) {
-			strlist.add(warnlevellist.get(i).getIPnamelevel());
-			if(!warnnotoklist.contains(warnlevellist.get(i).getIPnamelevel())) {
-				warnhistoryImpl.add(warnlevellist.get(i));
-			}
-		}
-		for (int i = 0; i < warnnotoklist.size(); i++) {
-			if(!strlist.contains(warnnotoklist.get(i))) {
-				Date date = new Date();
-				SimpleDateFormat dts = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String format = dts.format(date);
-				QueryParam param = new QueryParam();
-				param.setNameType(warnnotoklist.get(i));
-				param.setEnd_time(format);
-				warnhistoryImpl.update(param);
-			}
-		}
-		Map<String,String> sysnamemap = sensorImpl.getSysname();
 		warnlevel = 1;
-		List<Integer> intlist = getlevelsum();
-		request.setAttribute("warnlevel", warnlevel);
-		request.setAttribute("intlist", intlist);
-		request.setAttribute("map", map);
-		request.setAttribute("sysnamemap", sysnamemap);
-		request.setAttribute("warnlevellist", warnlevellist);
-		request.setAttribute("serversip", serversip);
-		request.setAttribute("menu", "warncurrent");
+		String menu = "warncurrent";
+		String warnType = "告警";
+		warnCurrent(request,menu,warnType);
 		return "/WEB-INF/ipmiwarn/warncurrent";
 	}
 	
-	// 告警信息页面
 	@RequestMapping("/warncurrentall")
 	@MethodLog(remark = "进入全部告警页面",openType = "3")
 	public String warncurrentall(HttpServletRequest request) {
-		HashMap<String, String> map = englishImpl.getmap();
-		List<serversip> serversip = null;
-		serversip = sensorImpl.getServersip();
-		List<sensorrecord> warnlevellist = getwarnlevel();
-		List<String> warnnotoklist = getwarnnotok();
-		List<String> strlist = new ArrayList<String>();
-		for (int i = 0; i < warnlevellist.size(); i++) {
-			strlist.add(warnlevellist.get(i).getIPnamelevel());
-			if(!warnnotoklist.contains(warnlevellist.get(i).getIPnamelevel())) {
-				warnhistoryImpl.add(warnlevellist.get(i));
-			}
-		}
-		for (int i = 0; i < warnnotoklist.size(); i++) {
-			if(!strlist.contains(warnnotoklist.get(i))) {
-				Date date = new Date();
-				SimpleDateFormat dts = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String format = dts.format(date);
-				QueryParam param = new QueryParam();
-				param.setNameType(warnnotoklist.get(i));
-				param.setEnd_time(format);
-				warnhistoryImpl.update(param);
-			}
-		}
-		Map<String,String> sysnamemap = sensorImpl.getSysname();
-		List<Integer> intlist = getlevelsum();
 		warnlevel = 1;
-		request.setAttribute("warnlevel", warnlevel);
-		request.setAttribute("intlist", intlist);		
-		request.setAttribute("map", map);
-		request.setAttribute("sysnamemap", sysnamemap);
-		request.setAttribute("warnlevellist", warnlevellist);
-		request.setAttribute("serversip", serversip);
-		request.setAttribute("menu", "warncurrentall");
+		String menu = "warncurrentall";
+		String warnType = "告警";
+		warnCurrent(request,menu,warnType);
 		return "/WEB-INF/ipmiwarn/warncurrentall";
 	}
 	
-	// 告警信息页面
 	@RequestMapping("/warncurrentallDiv")
 	public String warncurrentallDiv(HttpServletRequest request) {
-		HashMap<String, String> map = englishImpl.getmap();
-		List<serversip> serversip = null;
-		serversip = sensorImpl.getServersip();
-		List<sensorrecord> warnlevellist = getwarnlevel();
-		List<String> warnnotoklist = getwarnnotok();
-		List<String> strlist = new ArrayList<String>();
-		for (int i = 0; i < warnlevellist.size(); i++) {
-			strlist.add(warnlevellist.get(i).getIPnamelevel());
-			if(!warnnotoklist.contains(warnlevellist.get(i).getIPnamelevel())) {
-				warnhistoryImpl.add(warnlevellist.get(i));
-			}
-		}
-		for (int i = 0; i < warnnotoklist.size(); i++) {
-			if(!strlist.contains(warnnotoklist.get(i))) {
-				Date date = new Date();
-				SimpleDateFormat dts = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String format = dts.format(date);
-				QueryParam param = new QueryParam();
-				param.setNameType(warnnotoklist.get(i));
-				param.setEnd_time(format);
-				warnhistoryImpl.update(param);
-			}
-		}
-		Map<String,String> sysnamemap = sensorImpl.getSysname();
-		List<Integer> intlist = getlevelsum();
 		warnlevel = 1;
-		request.setAttribute("warnlevel", warnlevel);
-		request.setAttribute("intlist", intlist);		
-		request.setAttribute("map", map);
-		request.setAttribute("sysnamemap", sysnamemap);
-		request.setAttribute("warnlevellist", warnlevellist);
-		request.setAttribute("serversip", serversip);
-		request.setAttribute("menu", "warncurrentall");
+		String menu = "warncurrentall";
+		String warnType = "告警";
+		warnCurrent(request,menu,warnType);
 		return "/WEB-INF/ipmiwarn/warncurrentallDiv";
 	}
-
+	
 	// 告警信息页面
 	@RequestMapping("/warncurrentserious")
 	@MethodLog(remark = "进入严重告警页面",openType = "3")
 	public String warncurrentserious(HttpServletRequest request) {
-		HashMap<String, String> map = englishImpl.getmap();
-		List<serversip> serversip = null;
-		serversip = sensorImpl.getServersip();
-		List<sensorrecord> warnlevellist = getwarnlevel();
-		List<String> warnnotoklist = getwarnnotok();
-		List<String> strlist = new ArrayList<String>();
-		List<sensorrecord> list = new ArrayList<sensorrecord>();
-		for (int i = 0; i < warnlevellist.size(); i++) {
-			strlist.add(warnlevellist.get(i).getIPnamelevel());
-			if(!warnnotoklist.contains(warnlevellist.get(i).getIPnamelevel())) {
-				warnhistoryImpl.add(warnlevellist.get(i));
-			}
-			if(warnlevellist.get(i).getWarnlevel().equals("严重告警")) {
-				list.add(warnlevellist.get(i));
-			}
-		}
-		for (int i = 0; i < warnnotoklist.size(); i++) {
-			if(!strlist.contains(warnnotoklist.get(i))) {
-				Date date = new Date();
-				SimpleDateFormat dts = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String format = dts.format(date);
-				QueryParam param = new QueryParam();
-				param.setNameType(warnnotoklist.get(i));
-				param.setEnd_time(format);
-				warnhistoryImpl.update(param);
-			}
-		}
-		
-		Map<String,String> sysnamemap = sensorImpl.getSysname();
-		List<Integer> intlist = getlevelsum();
 		warnlevel = 3;
-		request.setAttribute("warnlevel", warnlevel);
-		request.setAttribute("intlist", intlist);		
-		request.setAttribute("map", map);
-		request.setAttribute("sysnamemap", sysnamemap);
-		request.setAttribute("list", list);
-		request.setAttribute("warnlevellist", warnlevellist);
-		request.setAttribute("serversip", serversip);
-		request.setAttribute("menu", "warncurrentall");
+		String menu = "warncurrentall";
+		String warnType = "严重";
+		warnCurrent(request,menu,warnType);
 		return "/WEB-INF/ipmiwarn/warncurrentserious";
 	}
 	
-	// 告警信息页面
 	@RequestMapping("/warncurrentseriousDiv")
 	public String warncurrentseriousDiv(HttpServletRequest request) {
-		HashMap<String, String> map = englishImpl.getmap();
-		List<serversip> serversip = null;
-		serversip = sensorImpl.getServersip();
-		List<sensorrecord> warnlevellist = getwarnlevel();
-		List<String> warnnotoklist = getwarnnotok();
-		List<String> strlist = new ArrayList<String>();
-		List<sensorrecord> list = new ArrayList<sensorrecord>();
-		for (int i = 0; i < warnlevellist.size(); i++) {
-			strlist.add(warnlevellist.get(i).getIPnamelevel());
-			if(!warnnotoklist.contains(warnlevellist.get(i).getIPnamelevel())) {
-				warnhistoryImpl.add(warnlevellist.get(i));
-			}
-			if(warnlevellist.get(i).getWarnlevel().equals("严重告警")) {
-				list.add(warnlevellist.get(i));
-			}
-		}
-		for (int i = 0; i < warnnotoklist.size(); i++) {
-			if(!strlist.contains(warnnotoklist.get(i))) {
-				Date date = new Date();
-				SimpleDateFormat dts = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String format = dts.format(date);
-				QueryParam param = new QueryParam();
-				param.setNameType(warnnotoklist.get(i));
-				param.setEnd_time(format);
-				warnhistoryImpl.update(param);
-			}
-		}
-		
-		Map<String,String> sysnamemap = sensorImpl.getSysname();
-		List<Integer> intlist = getlevelsum();
 		warnlevel = 3;
-		request.setAttribute("warnlevel", warnlevel);
-		request.setAttribute("intlist", intlist);		
-		request.setAttribute("map", map);
-		request.setAttribute("sysnamemap", sysnamemap);
-		request.setAttribute("list", list);
-		request.setAttribute("warnlevellist", warnlevellist);
-		request.setAttribute("serversip", serversip);
-		request.setAttribute("menu", "warncurrentall");
+		String menu = "warncurrentall";
+		String warnType = "严重";
+		warnCurrent(request,menu,warnType);
 		return "/WEB-INF/ipmiwarn/warncurrentseriousDiv";
 	}
 	
-	// 告警信息页面
 	@RequestMapping("/warncurrentslight")
 	@MethodLog(remark = "进入轻微告警页面",openType = "3")
 	public String warncurrentslight(HttpServletRequest request) {
-		HashMap<String, String> map = englishImpl.getmap();
-		List<serversip> serversip = null;
-		serversip = sensorImpl.getServersip();
-		List<sensorrecord> warnlevellist = getwarnlevel();
-		List<String> warnnotoklist = getwarnnotok();
-		List<String> strlist = new ArrayList<String>();
-		List<sensorrecord> list = new ArrayList<sensorrecord>();
-		for (int i = 0; i < warnlevellist.size(); i++) {
-			strlist.add(warnlevellist.get(i).getIPnamelevel());
-			if(!warnnotoklist.contains(warnlevellist.get(i).getIPnamelevel())) {
-				warnhistoryImpl.add(warnlevellist.get(i));
-			}
-			if(warnlevellist.get(i).getWarnlevel().equals("轻微告警")) {
-				list.add(warnlevellist.get(i));
-			}
-		}
-		for (int i = 0; i < warnnotoklist.size(); i++) {
-			if(!strlist.contains(warnnotoklist.get(i))) {
-				Date date = new Date();
-				SimpleDateFormat dts = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String format = dts.format(date);
-				QueryParam param = new QueryParam();
-				param.setNameType(warnnotoklist.get(i));
-				param.setEnd_time(format);
-				warnhistoryImpl.update(param);
-			}
-		}
-		
-		Map<String,String> sysnamemap = sensorImpl.getSysname();
-		List<Integer> intlist = getlevelsum();
 		warnlevel = 2;
-		request.setAttribute("warnlevel", warnlevel);
-		request.setAttribute("intlist", intlist);		
-		request.setAttribute("map", map);
-		request.setAttribute("sysnamemap", sysnamemap);
-		request.setAttribute("list", list);
-		request.setAttribute("warnlevellist", warnlevellist);
-		request.setAttribute("serversip", serversip);
-		request.setAttribute("menu", "warncurrentall");
+		String menu = "warncurrentall";
+		String warnType = "轻微";
+		warnCurrent(request,menu,warnType);
 		return "/WEB-INF/ipmiwarn/warncurrentslight";
 	}
 	
-	// 告警信息页面
 	@RequestMapping("/warncurrentslightDiv")
 	public String warncurrentslightDiv(HttpServletRequest request) {
-		HashMap<String, String> map = englishImpl.getmap();
-		List<serversip> serversip = null;
-		serversip = sensorImpl.getServersip();
-		List<sensorrecord> warnlevellist = getwarnlevel();
-		List<String> warnnotoklist = getwarnnotok();
-		List<String> strlist = new ArrayList<String>();
-		List<sensorrecord> list = new ArrayList<sensorrecord>();
-		for (int i = 0; i < warnlevellist.size(); i++) {
-			strlist.add(warnlevellist.get(i).getIPnamelevel());
-			if(!warnnotoklist.contains(warnlevellist.get(i).getIPnamelevel())) {
-				warnhistoryImpl.add(warnlevellist.get(i));
-			}
-			if(warnlevellist.get(i).getWarnlevel().equals("轻微告警")) {
-				list.add(warnlevellist.get(i));
-			}
-		}
-		for (int i = 0; i < warnnotoklist.size(); i++) {
-			if(!strlist.contains(warnnotoklist.get(i))) {
-				Date date = new Date();
-				SimpleDateFormat dts = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String format = dts.format(date);
-				QueryParam param = new QueryParam();
-				param.setNameType(warnnotoklist.get(i));
-				param.setEnd_time(format);
-				warnhistoryImpl.update(param);
-			}
-		}
-		
-		Map<String,String> sysnamemap = sensorImpl.getSysname();
-		List<Integer> intlist = getlevelsum();
 		warnlevel = 2;
-		request.setAttribute("warnlevel", warnlevel);
-		request.setAttribute("intlist", intlist);		
-		request.setAttribute("map", map);
-		request.setAttribute("sysnamemap", sysnamemap);
-		request.setAttribute("list", list);
-		request.setAttribute("warnlevellist", warnlevellist);
-		request.setAttribute("serversip", serversip);
-		request.setAttribute("menu", "warncurrentall");
+		String menu = "warncurrentall";
+		String warnType = "轻微";
+		warnCurrent(request,menu,warnType);
 		return "/WEB-INF/ipmiwarn/warncurrentslightDiv";
 	}
 	
-	// 告警信息页面
 	@RequestMapping("/warncurrentexigence")
 	@MethodLog(remark = "进入紧急告警页面",openType = "3")
 	public String warncurrentexigence(HttpServletRequest request) {
-		HashMap<String, String> map = englishImpl.getmap();
-		List<serversip> serversip = null;
-		serversip = sensorImpl.getServersip();
-		List<sensorrecord> warnlevellist = getwarnlevel();
-		List<String> warnnotoklist = getwarnnotok();
-		List<String> strlist = new ArrayList<String>();
-		List<sensorrecord> list = new ArrayList<sensorrecord>();
-		for (int i = 0; i < warnlevellist.size(); i++) {
-			strlist.add(warnlevellist.get(i).getIPnamelevel());
-			if(!warnnotoklist.contains(warnlevellist.get(i).getIPnamelevel())) {
-				warnhistoryImpl.add(warnlevellist.get(i));
-			}
-			if(warnlevellist.get(i).getWarnlevel().equals("紧急告警")) {
-				list.add(warnlevellist.get(i));
-			}
-		}
-		for (int i = 0; i < warnnotoklist.size(); i++) {
-			if(!strlist.contains(warnnotoklist.get(i))) {
-				Date date = new Date();
-				SimpleDateFormat dts = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String format = dts.format(date);
-				QueryParam param = new QueryParam();
-				param.setNameType(warnnotoklist.get(i));
-				param.setEnd_time(format);
-				warnhistoryImpl.update(param);
-			}
-		}
-		
-		Map<String,String> sysnamemap = sensorImpl.getSysname();
-		List<Integer> intlist = getlevelsum();
 		warnlevel = 4;
-		request.setAttribute("warnlevel", warnlevel);
-		request.setAttribute("intlist", intlist);		
-		request.setAttribute("map", map);
-		request.setAttribute("sysnamemap", sysnamemap);
-		request.setAttribute("list", list);
-		request.setAttribute("warnlevellist", warnlevellist);
-		request.setAttribute("serversip", serversip);
-		request.setAttribute("menu", "warncurrentall");
+		String menu = "warncurrentall";
+		String warnType = "紧急";
+		warnCurrent(request,menu,warnType);
 		return "/WEB-INF/ipmiwarn/warncurrentexigence";
 	}
-
-	// 告警信息页面
+	
 	@RequestMapping("/warncurrentexigenceDiv")
 	public String warncurrentexigenceDiv(HttpServletRequest request) {
+		warnlevel = 4;
+		String menu = "warncurrentall";
+		String warnType = "紧急";
+		warnCurrent(request,menu,warnType);
+		return "/WEB-INF/ipmiwarn/warncurrentexigenceDiv";
+	}
+	
+	public void warnCurrent(HttpServletRequest request,String menu,String warnType) {
 		HashMap<String, String> map = englishImpl.getmap();
-		List<serversip> serversip = null;
-		serversip = sensorImpl.getServersip();
-		List<sensorrecord> warnlevellist = getwarnlevel();
-		List<String> warnnotoklist = getwarnnotok();
-		List<String> strlist = new ArrayList<String>();
-		List<sensorrecord> list = new ArrayList<sensorrecord>();
-		for (int i = 0; i < warnlevellist.size(); i++) {
-			strlist.add(warnlevellist.get(i).getIPnamelevel());
-			if(!warnnotoklist.contains(warnlevellist.get(i).getIPnamelevel())) {
-				warnhistoryImpl.add(warnlevellist.get(i));
+		List<serversip> serversIPList = null;
+		serversIPList = sensorImpl.getServersip();
+		List<sensorrecord> warnList = getWarn();
+		List<String> warnNotOkList = getwarnnotok();
+		List<String> middleList = new ArrayList<String>();
+		List<sensorrecord> requestList = new ArrayList<sensorrecord>();
+		for (int i = 0; i < warnList.size(); i++) {
+			middleList.add(warnList.get(i).getIPnamelevel());
+			if(!warnNotOkList.contains(warnList.get(i).getIPnamelevel())) {
+				warnhistoryImpl.add(warnList.get(i));
 			}
-			if(warnlevellist.get(i).getWarnlevel().equals("紧急告警")) {
-				list.add(warnlevellist.get(i));
+			if(warnList.get(i).getWarnlevel().contains(warnType)) {
+				requestList.add(warnList.get(i));
 			}
 		}
-		for (int i = 0; i < warnnotoklist.size(); i++) {
-			if(!strlist.contains(warnnotoklist.get(i))) {
+		for (int i = 0; i < warnNotOkList.size(); i++) {
+			if(!middleList.contains(warnNotOkList.get(i))) {
 				Date date = new Date();
 				SimpleDateFormat dts = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String format = dts.format(date);
 				QueryParam param = new QueryParam();
-				param.setNameType(warnnotoklist.get(i));
+				param.setNameType(warnNotOkList.get(i));
 				param.setEnd_time(format);
 				warnhistoryImpl.update(param);
 			}
 		}
-		
-		Map<String,String> sysnamemap = sensorImpl.getSysname();
-		List<Integer> intlist = getlevelsum();
-		warnlevel = 4;
+		Map<String,String> sysNameMap = sensorImpl.getSysname();
+		List<Integer> intList = getLevelSum();
 		request.setAttribute("warnlevel", warnlevel);
-		request.setAttribute("intlist", intlist);		
+		request.setAttribute("intList", intList);
 		request.setAttribute("map", map);
-		request.setAttribute("sysnamemap", sysnamemap);
-		request.setAttribute("list", list);
-		request.setAttribute("warnlevellist", warnlevellist);
-		request.setAttribute("serversip", serversip);
-		request.setAttribute("menu", "warncurrentall");
-		return "/WEB-INF/ipmiwarn/warncurrentexigenceDiv";
+		request.setAttribute("sysNameMap", sysNameMap);
+		request.setAttribute("requestList", requestList);
+		request.setAttribute("warnLevelList", warnList);
+		request.setAttribute("serversIPList", serversIPList);
+		request.setAttribute("menu", menu);
 	}
-		
-	public List<sensorrecord> getchassiswarnlevel(){
+	
+	
+	//机箱告警信息	
+	public List<sensorrecord> getChassisWarn(){
 		List<sensorrecord> warnlist = new ArrayList<sensorrecord>();
 		List<sensorrecord> setlist = null;
 		QueryParam param = new QueryParam();
@@ -582,7 +310,7 @@ public class WarnCurrentController {
 		for (int i = 0; i < setlist.size(); i++) {
 			strlist.add(setlist.get(i).getIPname());
 		}
-		List<chassisList> list = getinfo("全部","全部");
+		List<chassisList> list = getInfo("全部","全部");
 		for (int i = 0; i < list.size(); i++) {
 			String IPname = list.get(i).getIP() + list.get(i).getName();
 			Date date = list.get(i).getStart_time();
@@ -615,7 +343,7 @@ public class WarnCurrentController {
 		return warnlist;
 	}
 	
-	public  List<chassisList> getinfo(String nameType,String IPType){
+	public  List<chassisList> getInfo(String nameType,String IPType){
 		QueryParam param = new QueryParam();
 		param.setIPType(IPType);
 		List<chassisStatus> chassisStatus = null;
@@ -628,7 +356,7 @@ public class WarnCurrentController {
 	}
 	
 	//服务器无法连接告警
-	public List<sensorrecord> getIsOnlineWarnLevel(){
+	public List<sensorrecord> getIsOnlineWarn(){
 		Date date = new Date();
 		List<sensorrecord> warnlist = new ArrayList<sensorrecord>();
 		List<serversip> ipIsOnline = sensorImpl.selectIsOnline();
@@ -649,7 +377,7 @@ public class WarnCurrentController {
 	}
 	
 	//资源缺失告警
-	public List<sensorrecord> getresourcewarnlevel(){
+	public List<sensorrecord> getResourceWarn(){
 		List<sensorrecord> warnlist = new ArrayList<sensorrecord>();
 		List<sensorrecord> warnsetlist = null;
 		QueryParam param = new QueryParam();
@@ -662,7 +390,7 @@ public class WarnCurrentController {
 			addparam.setIPType(nameip.substring(nameip.indexOf('1')));
 			addparam.setEntity_id(nameip.substring(0, nameip.indexOf('1')));
 			addlist = sensorImpl.getcurrentInfobyParam(addparam);
-			String emptyname = dealemptyname(addlist);
+			String emptyname = dealEmptyName(addlist);
 			if(!emptyname.equals(emptyresource)) {
 				for (int j = 0; j < addlist.size(); j++) {
 					if(addlist.get(j).getStatesAsserted() != null && addlist.get(j).getStatesAsserted().isEmpty()) {
@@ -694,17 +422,9 @@ public class WarnCurrentController {
 		return warnlist;
 	}
 	
-	 public String dealemptyname(List<sensorrecord> list){
-    	String emptyname = "";
-    	for (int i = 0; i < list.size(); i++) {
-			if(list.get(i).getStatesAsserted() != null && list.get(i).getStatesAsserted().isEmpty()) {
-				emptyname += list.get(i).getName();
-			}
-		}
-		return emptyname;
-    }
 	
-	public List<sensorrecord> getwarnlevel(){
+	// 获取传感器告警信息
+	public List<sensorrecord> getSensorWarn(){
 		List<sensorrecord> warnlist = new ArrayList<sensorrecord>();
 		List<sensorrecord> list = sensorImpl.getIPnamenum();
 		List<String> strlist = getIPname();
@@ -744,19 +464,52 @@ public class WarnCurrentController {
 				}
 			}
 		}
-		List<sensorrecord> chassiswarnlist = getchassiswarnlevel();
-		for (int j = 0; j < chassiswarnlist.size(); j++) {
-			warnlist.add(chassiswarnlist.get(j));
-		}
-		List<sensorrecord> resourcewarnlist = getresourcewarnlevel();
-		for (int i = 0; i < resourcewarnlist.size(); i++) {
-			warnlist.add(resourcewarnlist.get(i));
-		}
-		List<sensorrecord> isOnlineWarnList = getIsOnlineWarnLevel();
-		for (int i = 0; i < isOnlineWarnList.size(); i++) {
-			warnlist.add(isOnlineWarnList.get(i));
-		}
 		return warnlist;
+	}
+	
+	 public String dealEmptyName(List<sensorrecord> list){
+    	String emptyname = "";
+    	for (int i = 0; i < list.size(); i++) {
+			if(list.get(i).getStatesAsserted() != null && list.get(i).getStatesAsserted().isEmpty()) {
+				emptyname += list.get(i).getName();
+			}
+		}
+		return emptyname;
+    }
+	
+	 //收集交换机的告警信息
+	 /**
+	  * 逻辑，获取交换机各个参数的实时数据，与设定的阈值进行比较，将超出
+	  * 阈值范围的数据加入告警列表
+	  * 
+	  * */
+	 
+	//收集DXC的告警信息
+	 
+	//收集TAP的告警信息
+	 
+	//收集网关服务器的告警信息
+	 
+	 //收集所有的告警信息
+	public List<sensorrecord> getWarn(){
+		List<sensorrecord> returnList = new ArrayList<sensorrecord>();
+		List<sensorrecord> sensorWarnList = getSensorWarn();
+		for (int j = 0; j < sensorWarnList.size(); j++) {
+			returnList.add(sensorWarnList.get(j));
+		}
+		List<sensorrecord> chassisWarnList = getChassisWarn();
+		for (int j = 0; j < chassisWarnList.size(); j++) {
+			returnList.add(chassisWarnList.get(j));
+		}
+		List<sensorrecord> resourceWarnList = getResourceWarn();
+		for (int i = 0; i < resourceWarnList.size(); i++) {
+			returnList.add(resourceWarnList.get(i));
+		}
+		List<sensorrecord> isOnlineWarnList = getIsOnlineWarn();
+		for (int i = 0; i < isOnlineWarnList.size(); i++) {
+			returnList.add(isOnlineWarnList.get(i));
+		}
+		return returnList;
 	}
 	
 	public List<String> getIPname(){

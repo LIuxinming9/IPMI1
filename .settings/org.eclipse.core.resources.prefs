@@ -5,6 +5,7 @@ encoding//src/main/java/com/gydz/util/insertcurrentUtil.java=UTF-8
 encoding//src/main/java/com/gydz/util/ipmiutil.java=UTF-8
 encoding//src/main/java/com/gydz/util/snmpUtil.java=UTF-8
 encoding//src/main/java/com/veraxsystems/vxipmi/coding/commands/sdr/GetSensorReadingResponseData.java=UTF-8
+encoding//src/main/java/com/veraxsystems/vxipmi/transport/VxipmiRunner.java=UTF-8
 encoding//src/main/java/com/veraxsystems/vxipmi/transport/ipmiutil.java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/test/java=UTF-8

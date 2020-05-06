@@ -7,7 +7,7 @@
 	<select id="getInfobyParam" parameterType="Map" resultType="sensorrecord">
 		select * from
 		${tablename}
-		where 1=1 and record_type = 'FullSensorRecord'
+		where 1=1 and record_type = 'Fullsensorrecord'
 		<if test="(datemin != null  and datemin != '') and (datemax != null and datemax != '')">
             and start_time between #{datemin} and #{datemax}
         </if>

@@ -36,19 +36,19 @@
 	          		<ul class="l pull-right">
            				<li style="color:black;background-color: OrangeRed;border: 5px solid OrangeRed;list-style-type:circle;">
             				<a href='${pageContext.request.contextPath}/warncurrent/warncurrentexigence' >
-		        				<span>紧急告警：${intlist.get(3)}</span></a></li></ul>
+		        				<span>紧急告警：${intList.get(3)}</span></a></li></ul>
             		<ul class="l pull-right">
             			<li style="color:black;background-color: Lime;border: 5px solid Lime;list-style-type:disc;">
             				<a href='${pageContext.request.contextPath}/warncurrent/warncurrentserious' >
-		        				<span>严重告警：${intlist.get(2)}</span></a></li></ul>
+		        				<span>严重告警：${intList.get(2)}</span></a></li></ul>
            			<ul class="l pull-right">
            				<li style="color:black;background-color: DeepSkyBlue;border: 5px solid DeepSkyBlue;list-style-type:circle;">
             				<a href='${pageContext.request.contextPath}/warncurrent/warncurrentslight' >
-			        			<span>轻微告警：${intlist.get(1)}</span></a></li></ul>
+			        			<span>轻微告警：${intList.get(1)}</span></a></li></ul>
            			<ul class="l pull-right">
            				<li style="color:black;background-color: LightGray ;border: 5px solid LightGray ;list-style-type:circle;">
             				<a href='${pageContext.request.contextPath}/warncurrent/warncurrentall' >
-			        			<span>全部告警：${intlist.get(0)}</span></a></li></ul>
+			        			<span>全部告警：${intList.get(0)}</span></a></li></ul>
 			        <ul class="l pull-right">
            				<li style="color:black;background-color:Cyan ;border: 5px solid Cyan ;list-style-type:circle;">
             				<a href='${pageContext.request.contextPath}/warncurrent/refresh' >
@@ -68,11 +68,11 @@
 	                </tr>
 	            </thead>
 	            <tbody>
-				<c:forEach items="${list}" var="item" varStatus="status">
+				<c:forEach items="${requestList}" var="item" varStatus="status">
 	         		<tr class="text-c">
 	         			<td class="center">${status.index+1}</td>
 	                    <td class="center"><fmt:formatDate value="${item.start_time}" pattern="yyyy年MM月dd日  HH:mm:ss" /></td>
-	                    <td class="center">${sysnamemap.get(item.IP)}</td>
+	                    <td class="center">${sysNameMap.get(item.IP)}</td>
 	                    <td class="center">${item.IP}</td>
 	                    <td class="center">${map.get(item.sensor_type)}</td>
 	                    <td class="center">${map.get(item.name)}</td>
@@ -80,7 +80,7 @@
 	                    <td class="center">${item.warnlevel}</td>
 	                </tr>
 	            </c:forEach>
-	            <c:forEach items="${warnlevellist}" var="item" varStatus="status">
+	            <c:forEach items="${warnLevelList}" var="item" varStatus="status">
 	                    <c:choose>
 					    <c:when test="${item.warnlevel=='告警'}">
 					    	<audio autoplay>
