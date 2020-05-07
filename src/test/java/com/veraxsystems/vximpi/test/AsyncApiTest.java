@@ -37,7 +37,7 @@ import com.veraxsystems.vxipmi.coding.security.CipherSuite;
 
 /**
  * Tests for the Asynchronous API
- * Òì²½APIµÄ²âÊÔ
+ * ï¿½ì²½APIï¿½Ä²ï¿½ï¿½ï¿½213
  */
 public class AsyncApiTest implements IpmiListener {
 
