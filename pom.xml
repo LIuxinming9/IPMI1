@@ -22,7 +22,7 @@
 		<junit.version>4.10</junit.version>
 		<!-- mybatis版本号 -->
 		<mybatis.version>3.2.1</mybatis.version>
-		<shiro.version>1.2.5</shiro.version>
+		<shiro.version>1.8.0</shiro.version>
 		<cxf.version>2.7.12</cxf.version>
 	</properties>
 	
